@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aesthetic Interface</title>
+    <style>
+        /* --- CORE CONFIGURATION & THEMES --- */
+        :root {
+            --bg-color: #191919;
+            --accent-color: #F98603;
+            --accent-glow: rgba(249, 134, 3, 0.3);
+            --element-color: #FFFFFF;
+            --transition-speed: 0.5s;
+            --curve: cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .light-mode {
+            --bg-color: #FFFFFF;
+            --element-color: #191919;
+            --accent-glow: rgba(249, 134, 3, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            transition: background-color var(--transition-speed) var(--curve);
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        /* --- MAIN GRID LAYOUT --- */
+        .grid-container {
+            position: relative; /* Necessario per ancorare il toggle al centro */
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 80px;
+            max-width: 650px;
+            width: 100%;
+            padding: 60px;
+        }
+
+        /* --- THEME TOGGLE (Centered & Refined) --- */
+        .theme-toggle {
+            position: absolute;
+            top: 50%;
+            left: calc(50% + 4px); /* Centrato perfettamente nel gap + leggero offset a destra */
+            transform: translate(-50%, -50%);
+            width: 28px;
+            height: 28px;
+            border: 1px solid var(--element-color);
+            background: var(--bg-color);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0.3;
+            transition: opacity 0.3s var(--curve), transform 0.3s var(--curve), border-color var(--transition-speed) var(--curve), background-color var(--transition-speed) var(--curve);
+            z-index: 100;
+        }
+
+        .theme-toggle:hover {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.1);
+            border-color: var(--accent-color);
+        }
+
+        .theme-toggle-inner {
+            width: 6px;
+            height: 6px;
+            background-color: var(--element-color);
+            border-radius: 50%;
+            transition: transform 0.4s var(--curve), background-color var(--transition-speed) var(--curve);
+        }
+
+        .light-mode .theme-toggle-inner {
+            transform: scale(1.4);
+            background-color: var(--accent-color);
+        }
+
+        /* --- BASE BUTTON CONTAINER --- */
+        .art-button {
+            position: relative;
+            height: 140px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: transform 0.3s var(--curve);
+        }
+
+        /* ==========================================
+           BUTTON 1: PYTHON (Sleek Minimalist Logo)
+           ========================================== */
+        .btn-python .py-wrapper {
+            position: relative;
+            width: 70px;
+            height: 70px;
+        }
+
+        .btn-python .py-snake {
+            position: absolute;
+            width: 44px;
+            height: 44px;
+            border: 1.5px solid var(--element-color);
+            transition: all 0.5s var(--curve);
+        }
+
+        .btn-python .py-top {
+            top: 0; left: 0;
+            border-radius: 14px 14px 4px 14px;
+            border-bottom: none;
+        }
+
+        .btn-python .py-top::before {
+            content: ''; position: absolute; top: 10px; left: 12px; 
+            width: 5px; height: 5px; background: var(--element-color); border-radius: 50%;
+            transition: background-color var(--transition-speed);
+        }
+
+        .btn-python .py-bottom {
+            bottom: 0; right: 0;
+            border-radius: 14px 4px 14px 14px;
+            border-top: none;
+        }
+
+        .btn-python .py-bottom::before {
+            content: ''; position: absolute; bottom: 10px; right: 12px; 
+            width: 5px; height: 5px; background: var(--element-color); border-radius: 50%;
+            transition: background-color var(--transition-speed);
+        }
+
+        /* Micro-interazione Python */
+        .btn-python:hover .py-top {
+            transform: translate(4px, 4px);
+            border-color: var(--accent-color);
+            box-shadow: -4px -4px 20px var(--accent-glow);
+        }
+
+        .btn-python:hover .py-bottom {
+            transform: translate(-4px, -4px);
+            border-color: var(--accent-color);
+            box-shadow: 4px 4px 20px var(--accent-glow);
+        }
+
+        .btn-python:hover .py-top::before, .btn-python:hover .py-bottom::before {
+            background-color: var(--accent-color);
+        }
+
+        /* ==========================================
+           BUTTON 2: C++ (Geometric Arc & Pluses)
+           ========================================== */
+        .btn-cpp .cpp-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+
+        .btn-cpp .c-arc {
+            width: 36px;
+            height: 36px;
+            border: 2px solid var(--element-color);
+            border-right: transparent;
+            border-radius: 50%;
+            transition: all 0.5s var(--curve);
+            position: absolute;
+            left: 8px;
+        }
+
+        .btn-cpp .plus-container {
+            display: flex;
+            gap: 5px;
+            position: absolute;
+            right: 6px;
+            opacity: 0.4;
+            transition: all 0.5s var(--curve);
+        }
+
+        .btn-cpp .plus-sign {
+            position: relative;
+            width: 12px;
+            height: 12px;
+        }
+
+        .btn-cpp .plus-sign::before, .btn-cpp .plus-sign::after {
+            content: '';
+            position: absolute;
+            background-color: var(--element-color);
+            transition: all 0.5s var(--curve);
+        }
+
+        .btn-cpp .plus-sign::before { top: 5px; left: 0; width: 100%; height: 2px; }
+        .btn-cpp .plus-sign::after { left: 5px; top: 0; width: 2px; height: 100%; }
+
+        /* Micro-interazione C++ */
+        .btn-cpp:hover .c-arc {
+            border-color: var(--accent-color);
+            border-right-color: transparent;
+            transform: scale(1.15) rotate(-15deg);
+            filter: drop-shadow(0 0 8px var(--accent-glow));
+        }
+
+        .btn-cpp:hover .plus-container {
+            opacity: 1;
+            transform: translateX(6px) scale(1.2);
+        }
+
+        .btn-cpp:hover .plus-sign::before, .btn-cpp:hover .plus-sign::after {
+            background-color: var(--accent-color);
+        }
+
+
+        /* ==========================================
+           BUTTON 3: HTML (Structural Expansion)
+           ========================================== */
+        .btn-html .bracket-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: gap 0.5s var(--curve);
+        }
+
+        .btn-html .bracket {
+            font-size: 28px;
+            font-weight: 200;
+            color: var(--element-color);
+            transition: color var(--transition-speed) var(--curve), transform 0.5s var(--curve);
+            user-select: none;
+        }
+
+        .btn-html .core-line {
+            width: 0px;
+            height: 2px;
+            background-color: var(--accent-color);
+            transition: width 0.5s var(--curve), box-shadow 0.5s var(--curve);
+        }
+
+        .btn-html:hover .bracket-wrapper { gap: 35px; }
+        .btn-html:hover .bracket { color: var(--accent-color); }
+        .btn-html:hover .bracket-left { transform: translateX(-5px); }
+        .btn-html:hover .bracket-right { transform: translateX(5px); }
+        .btn-html:hover .core-line {
+            width: 40px;
+            box-shadow: 0 0 15px var(--accent-color);
+        }
+
+        /* ==========================================
+           BUTTON 4: CSS (Layered Isometric Shift)
+           ========================================== */
+        .btn-css .stack-container {
+            position: relative;
+            width: 70px;
+            height: 50px;
+        }
+
+        .btn-css .layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 1.5px solid var(--element-color);
+            background-color: transparent;
+            transition: transform 0.5s var(--curve), border-color var(--transition-speed) var(--curve), background-color 0.5s var(--curve);
+        }
+
+        .btn-css .layer-1 { transform: translateY(0px) scale(1); z-index: 3; }
+        .btn-css .layer-2 { transform: translateY(0px) scale(1); z-index: 2; opacity: 0.5; }
+        .btn-css .layer-3 { transform: translateY(0px) scale(1); z-index: 1; opacity: 0.2; }
+
+        .btn-css:hover .layer-1 {
+            border-color: var(--accent-color);
+            transform: translateY(-16px) rotateX(50deg) rotateZ(-30deg);
+            background-color: var(--accent-glow);
+        }
+
+        .btn-css:hover .layer-2 {
+            border-color: var(--element-color);
+            transform: translateY(0px) rotateX(50deg) rotateZ(-30deg);
+            opacity: 0.6;
+        }
+
+        .btn-css:hover .layer-3 {
+            border-color: var(--accent-color);
+            transform: translateY(16px) rotateX(50deg) rotateZ(-30deg);
+            opacity: 0.8;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 600px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+                gap: 60px;
+                padding: 40px;
+            }
+            .theme-toggle {
+                /* Su mobile si sposta sopra per non spezzare il layout a colonna singola */
+                top: -20px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .theme-toggle:hover {
+                transform: translateX(-50%) scale(1.1);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="grid-container">
+        
+        <button class="theme-toggle" id="themeToggle" aria-label="Cambia tema">
+            <div class="theme-toggle-inner"></div>
+        </button>
+
+        <button class="art-button btn-python" aria-label="Python Component">
+            <div class="py-wrapper">
+                <div class="py-snake py-top"></div>
+                <div class="py-snake py-bottom"></div>
+            </div>
+        </button>
+
+        <button class="art-button btn-cpp" aria-label="C++ Component">
+            <div class="cpp-wrapper">
+                <div class="c-arc"></div>
+                <div class="plus-container">
+                    <div class="plus-sign"></div>
+                    <div class="plus-sign"></div>
+                </div>
+            </div>
+        </button>
+
+        <button class="art-button btn-html" aria-label="HTML Component">
+            <div class="bracket-wrapper">
+                <span class="bracket bracket-left">&lt;</span>
+                <div class="core-line"></div>
+                <span class="bracket bracket-right">&gt;</span>
+            </div>
+        </button>
+
+        <button class="art-button btn-css" aria-label="CSS Component">
+            <div class="stack-container">
+                <div class="layer layer-1"></div>
+                <div class="layer layer-2"></div>
+                <div class="layer layer-3"></div>
+            </div>
+        </button>
+
+    </main>
+
+    <script>
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        // Cambia Tema
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('light-mode');
+        });
+
+        // Micro-interazione magnetica sui bottoni
+        const buttons = document.querySelectorAll('.art-button');
+        buttons.forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                btn.style.transform = `translate(${x * 0.12}px, ${y * 0.12}px)`;
+            });
+
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = `translate(0px, 0px)`;
+            });
+        });
+    </script>
+</body>
+</html>
